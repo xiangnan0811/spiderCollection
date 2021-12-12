@@ -1,4 +1,5 @@
 from spiders.user import UserSpider
+from spiders.tweet import TweetSpider
 
 
 def get_screen_names(file_path) -> list:
@@ -13,15 +14,17 @@ def get_screen_names(file_path) -> list:
     return screen_names
 
 
-def get_user_info(screen_names) -> dict:
+def get_user_tweets(user_id, count):
+    tweet_spider = TweetSpider()
+    tweets = tweet_spider.get_user_tweets(user_id=user_id, count=count)
+    print(tweets)
+
+
+def get_user_info() -> dict:
     """依据用户 screen_names 获取用户信息.
 
     @Returns:  用户信息 dict
     """
-    pass
-
-
-if __name__ == '__main__':
     user_file_path = './data/users.txt'
     screen_names = get_screen_names(user_file_path)
     print(len(screen_names))
@@ -32,3 +35,8 @@ if __name__ == '__main__':
             print(f'成功获取用户 -> {u["name"][:20]:^20s} <- id 为 -> {u["id"]:^25s} <- 的信息')
         else:
             print(f'获取用户 -> {screen_name} <- 信息失败')
+
+
+if __name__ == '__main__':
+    # get_user_info()
+    get_user_tweets(user_id='1349149096909668363', count=10)
